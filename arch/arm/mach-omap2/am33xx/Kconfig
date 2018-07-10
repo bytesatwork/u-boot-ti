@@ -160,6 +160,15 @@ config TARGET_BRPPT1
 	bool "Support BRPPT1"
 	select BOARD_LATE_INIT
 
+config TARGET_BYTEENGINE_AM335X
+	bool "Support byteENGINE AM335x"
+	select BOARD_LATE_INIT
+	select DM
+	select DM_SERIAL
+	select DM_GPIO
+	help
+	  Support for the bytesatwork byteENGINE AM335x
+
 config TARGET_CHILIBOARD
 	bool "Grinn chiliBoard"
 	select AM33XX_CHILISOM

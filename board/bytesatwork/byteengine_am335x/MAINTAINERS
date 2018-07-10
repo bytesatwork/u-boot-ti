@@ -1,0 +1,7 @@
+BYTEENGINE_AM335X
+M:	Markus Kappeler <markus.kappeler@bytesatwork.ch>
+S:	Maintained
+F:	board/bytesatwork/byteengine_am335x/
+F:	include/configs/byteengine_am335x.h
+F:	configs/am335x_bytedevkit_emmc_defconfig
+F:	configs/am335x_bytedevkit_nand_defconfig

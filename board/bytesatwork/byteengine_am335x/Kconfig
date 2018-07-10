@@ -1,0 +1,44 @@
+if TARGET_BYTEENGINE_AM335X
+
+config SYS_BOARD
+	default "byteengine_am335x"
+
+config SYS_VENDOR
+	default "bytesatwork"
+
+config SYS_SOC
+	default "am33xx"
+
+config SYS_CONFIG_NAME
+	default "byteengine_am335x"
+
+config CONS_INDEX
+	int "UART used for console"
+	range 1 6
+	default 1
+	help
+	  The AM335x SoC has a total of 6 UARTs (UART0 to UART5 as referenced
+	  in documentation, etc) available to it.  Depending on your specific
+	  board you may want something other than UART0 as for example the IDK
+	  uses UART3 so enter 4 here.
+
+config CMD_M2CONFIG
+	bool "m2config command"
+	depends on M2CONFIG_EEPROM || M2CONFIG_BUILTIN
+	default y
+	help
+	  Enable m2config command functionality.
+
+config M2CONFIG_EEPROM
+	bool "m2config eeprom support"
+	default y
+	help
+	  Enable m2config EEPROM read/write functionality.
+
+config M2CONFIG_BUILTIN
+	bool "m2config builtin support"
+	default y
+	help
+	  Enable m2config builtin configuration functionality.
+
+endif
