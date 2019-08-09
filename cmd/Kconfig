@@ -177,6 +177,12 @@ config CMD_CPU
 	  internal name) and clock frequency. Other information may be
 	  available depending on the CPU driver.
 
+config CMD_CPUINFO
+	bool "cpuinfo"
+	help
+	  Print information about the CPU such as type, revision, clock rate
+	  and temperature grade.
+
 config CMD_UFETCH
 	bool "U-Boot fetch"
 	help

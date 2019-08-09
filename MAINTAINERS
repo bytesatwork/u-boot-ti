@@ -272,6 +272,7 @@ S:	Maintained
 W:	https://www.bytesatwork.io/
 T:	git https://github.com/bytesatwork/u-boot-ti.git
 F:	.github/workflows/checkpatch.yml
+F:	cmd/cpuinfo.c
 
 ARM CORTINA ACCESS CAxxxx
 M:	Alex Nemirovsky <alex.nemirovsky@cortina-access.com>
