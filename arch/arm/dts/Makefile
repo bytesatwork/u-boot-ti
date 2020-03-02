@@ -304,6 +304,7 @@ dtb-$(CONFIG_AM33XX) += \
 	am335x-brppt1-spi.dtb \
 	am335x-brxre1.dtb \
 	am335x-brsmarc1.dtb \
+	am335x-bytedevkit.dtb \
 	am335x-draco.dtb \
 	am335x-evm.dtb \
 	am335x-evm-mini.dtb \

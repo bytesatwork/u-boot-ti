@@ -45,25 +45,6 @@ static struct module_pin_mux mmc1_pin_mux[] = {
 	{OFFSET(gpmc_csn2), (MODE(2) | RXACTIVE | PULLUP_EN)},	/* MMC1_CMD */
 	{-1},
 };
-#else
-static struct module_pin_mux nand_pin_mux[] = {
-	{OFFSET(gpmc_ad0), (MODE(0) | RXACTIVE | PULLUP_EN)},	/* GPMC_AD0 */
-	{OFFSET(gpmc_ad1), (MODE(0) | RXACTIVE | PULLUP_EN)},	/* GPMC_AD1 */
-	{OFFSET(gpmc_ad2), (MODE(0) | RXACTIVE | PULLUP_EN)},	/* GPMC_AD2 */
-	{OFFSET(gpmc_ad3), (MODE(0) | RXACTIVE | PULLUP_EN)},	/* GPMC_AD3 */
-	{OFFSET(gpmc_ad4), (MODE(0) | RXACTIVE | PULLUP_EN)},	/* GPMC_AD4 */
-	{OFFSET(gpmc_ad5), (MODE(0) | RXACTIVE | PULLUP_EN)},	/* GPMC_AD5 */
-	{OFFSET(gpmc_ad6), (MODE(0) | RXACTIVE | PULLUP_EN)},	/* GPMC_AD6 */
-	{OFFSET(gpmc_ad7), (MODE(0) | RXACTIVE | PULLUP_EN)},	/* GPMC_AD7 */
-	{OFFSET(gpmc_wpn), (MODE(7) | RXACTIVE | PULLUP_EN)},	/* GPMC_WPN */
-	{OFFSET(gpmc_csn0), (MODE(0))},				/* GPMC_CSN0 */
-	{OFFSET(gpmc_advn_ale), (MODE(0))},			/* GPMC_ADVN_ALE */
-	{OFFSET(gpmc_be0n_cle), (MODE(0))},			/* GPMC_BEN0_CLE */
-	{OFFSET(gpmc_wen), (MODE(0))},				/* GPMC_WEN */
-	{OFFSET(gpmc_oen_ren), (MODE(0))},			/* GPMC_OEN_REN */
-	{OFFSET(gpmc_wait0), (MODE(0) | RXACTIVE | PULLUP_EN)},	/* GPMC_WAIT0 */
-	{-1},
-};
 #endif
 
 static struct module_pin_mux i2c0_pin_mux[] = {
@@ -138,7 +119,5 @@ void enable_board_pin_mux(void)
 #ifdef CONFIG_SPI_FLASH
 	configure_module_pin_mux(spi0_pin_mux);
 	configure_module_pin_mux(mmc1_pin_mux);
-#else
-	configure_module_pin_mux(nand_pin_mux);
 #endif
 }

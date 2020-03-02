@@ -17,7 +17,7 @@
 #include <asm/io.h>
 #include <cpsw.h>
 #include <power/tps65910.h>
-#include <environment.h>
+#include <env_internal.h>
 #include <errno.h>
 #include <miiphy.h>
 #include <spl.h>
@@ -87,9 +87,6 @@ int board_init(void)
 #endif
 
 	gd->bd->bi_boot_params = CONFIG_SYS_SDRAM_BASE + 0x100;
-#ifdef CONFIG_NAND
-	gpmc_init();
-#endif
 
 	return 0;
 }
