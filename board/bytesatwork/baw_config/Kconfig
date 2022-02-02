@@ -1,0 +1,72 @@
+# SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
+# Copyright (C) 2024 bytesatwork AG - https://www.bytesatwork.io
+
+menu "bytesatwork production data tool"
+
+config CMD_BAW_CONFIG
+	bool "bawconfig command"
+	default y
+	help
+	  Enable bawconfig command functionality for
+	  running commands from the u-boot console.
+
+config BAW_CONFIG_EEPROM
+	bool "bawconfig EEPROM support"
+	default y
+	help
+	  Enable bawconfig EEPROM read/write functionality.
+	  Read, write and erase production data on the SoM EEPROM.
+
+config BAW_CONFIG_EEPROM_BUS
+	int "bawconfig I2C bus number"
+	default 0
+	help
+	  I2C bus number of configuration EEPROM
+	  used on the SoM.
+
+config BAW_CONFIG_EEPROM_BUS_NAME
+	string "device tree I2C bus name"
+	default ""
+	help
+	  I2C controller name where the configuration EEPROM of the SoM is
+	  attached. Takes priority over BAW_CONFIG_EEPROM_BUS, because the bus
+	  number could be different in SPL and u-boot.
+
+config BAW_CONFIG_EEPROM_ADDRESS
+	hex "bawconfig I2C address"
+	default 0x50
+	help
+	  I2C address of configuration EEPROM
+	  placed on the SoM.
+
+config BAW_CONFIG_EEPROM_ADDRESS_BYTES
+	int "bawconfig I2C EEPROM memory address bytes"
+	default 2
+	help
+	  Number of memory address bytes of configuration EEPROM
+	  placed on the SoM.
+
+config BAW_CONFIG_EEPROM_MAX_WRITE
+	int "bawconfig I2C EEPROM max burst write"
+	default 64
+	help
+	  Maximum number of bytes sent in one I2C transfer to configuration
+	  EEPROM placed on the SoM.
+
+config BAW_CONFIG_EEPROM_WRITE_DELAY_MS
+	int "bawconfig I2C EEPROM delay between writes"
+	default 0
+	help
+	  Fixed delay between I2C (burst) transfers to configuration EEPROM
+	  placed on the SoM. Without delay the EEPROM is polled for ACK which
+	  some devices do not support.
+
+config BAW_CONFIG_BUILTIN
+	bool "bawconfig builtin support"
+	default y
+	help
+	  Enable bawconfig builtin configuration functionality. Additinonally,
+	  this allows to write the built-in configuration to the EEPROM if
+	  BAW_CONFIG_EEPROM is enabled.
+
+endmenu
