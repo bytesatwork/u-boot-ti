@@ -195,6 +195,7 @@ config K3_X509_SWRV
 	help
 	  SWRV for X509 certificate used for boot images
 
+source "board/bytesatwork/bytedevkit/Kconfig"
 source "board/ti/am65x/Kconfig"
 source "board/ti/am64x/Kconfig"
 source "board/ti/am62x/Kconfig"

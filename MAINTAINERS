@@ -192,6 +192,7 @@ T:	git https://github.com/bytesatwork/u-boot-ti
 M:	Rico Ganahl <rico.ganahl@bytesatwork.ch>
 S:	Maintained
 F:	arch/arm/dts/k3-am62*bytedevkit*
+F:	arch/arm/dts/k3-am62*byteengine*
 F:	board/bytesatwork/
 F:	configs/*bytedevkit*_defconfig
 F:	include/configs/*bytedevkit*.h
