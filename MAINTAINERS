@@ -194,6 +194,7 @@ S:	Maintained
 F:	arch/arm/dts/k3-am62*bytedevkit*
 F:	arch/arm/dts/k3-am62*byteengine*
 F:	board/bytesatwork/
+F:	board/bytesatwork/bytedevkit/
 F:	configs/*bytedevkit*_defconfig
 F:	include/configs/*bytedevkit*.h
 

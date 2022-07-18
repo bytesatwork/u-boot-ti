@@ -1,22 +1,24 @@
 # SPDX-License-Identifier: GPL-2.0+
 #
+# Copyright (C) 2022 bytes at work AG - https://www.bytesatwork.io
+#
+# Based on ti/am62x/Kconfig
 # Copyright (C) 2020-2022 Texas Instruments Incorporated - https://www.ti.com/
 #	Suman Anna <s-anna@ti.com>
 
 choice
-	prompt "TI K3 AM62x based boards"
+	prompt "bytes at work TI AM62x based boards"
 	optional
 
-config TARGET_AM625_A53_EVM
-	bool "TI K3 based AM625 EVM running on A53"
+config TARGET_AM62X_BYTEDEVKIT_A53
+	bool "byteENGINE-AM62x on byteDEVKIT running on A53"
 	select ARM64
 	select SOC_K3_AM625
 	imply BOARD
 	imply SPL_BOARD
-	imply TI_I2C_BOARD_DETECT
 
-config TARGET_AM625_R5_EVM
-	bool "TI K3 based AM625 EVM running on R5"
+config TARGET_AM62X_BYTEDEVKIT_R5
+	bool "byteENGINE-AM62x on byteDEVKIT running on R5"
 	select CPU_V7R
 	select SYS_THUMB_BUILD
 	select K3_LOAD_SYSFW
@@ -25,39 +27,52 @@ config TARGET_AM625_R5_EVM
 	select SPL_RAM
 	select K3_DDRSS
 	imply SYS_K3_SPL_ATF
-	imply TI_I2C_BOARD_DETECT
 
 endchoice
 
-if TARGET_AM625_A53_EVM
+if TARGET_AM62X_BYTEDEVKIT_A53 || TARGET_AM62X_BYTEDEVKIT_R5
 
 config SYS_BOARD
-       default "am62x"
+	default "bytedevkit"
 
 config SYS_VENDOR
-       default "ti"
+	default "bytesatwork"
 
 config SYS_CONFIG_NAME
-       default "am62x_evm"
+	default "am62x_bytedevkit"
 
-source "board/ti/common/Kconfig"
+config BAW_COMMON_CMD_OPTIONS
+	bool "Enable bytesatwork cmd options"
+	imply CMD_ASKENV
+	imply CRC32_VERIFY if ARCH_KEYSTONE
+	imply CMD_DFU if USB_GADGET_DOWNLOAD
+	imply CMD_DHCP
+	imply CMD_EEPROM
+	imply CMD_EXT2
+	imply CMD_EXT4
+	imply CMD_EXT4_WRITE
+	imply CMD_FAT
+	imply FAT_WRITE if CMD_FAT
+	imply CMD_FS_GENERIC
+	imply CMD_GPIO
+	imply CMD_GPT
+	imply CMD_I2C
+	imply CMD_MII
+	imply CMD_MMC
+	imply CMD_PART
+	imply CMD_PING
+	imply CMD_PMIC if DM_PMIC
+	imply CMD_REGULATOR if DM_REGULATOR
+	imply CMD_SF if SPI_FLASH
+	imply CMD_SPI
+	imply CMD_TIME
+	imply CMD_USB if USB
 
 endif
 
-if TARGET_AM625_R5_EVM
-
-config SYS_BOARD
-       default "am62x"
-
-config SYS_VENDOR
-       default "ti"
-
-config SYS_CONFIG_NAME
-       default "am62x_evm"
+if TARGET_AM62X_BYTEDEVKIT_R5
 
 config SPL_LDSCRIPT
 	default "arch/arm/mach-omap2/u-boot-spl.lds"
-
-source "board/ti/common/Kconfig"
 
 endif
