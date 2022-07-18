@@ -252,6 +252,7 @@ W:	https://www.bytesatwork.io/
 M:	Rico Ganahl <rico.ganahl@bytesatwork.ch>
 T:	git https://github.com/bytesatwork/u-boot-ti.git
 S:	Maintained
+F:	configs/*bytedevkit*_defconfig
 F:	include/configs/*bytedevkit*.h
 
 ARM CORTINA ACCESS CAxxxx
