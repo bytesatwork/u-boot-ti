@@ -1,0 +1,157 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (C) 2026 bytesatwork AG - https://www.bytesatwork.io
+ *
+ * Based on k3-am625-sk.dts and k3-am62x-sk-common.dtsi
+ * Copyright (C) 2021-2024 Texas Instruments Incorporated - https://www.ti.com/
+ */
+
+/dts-v1/;
+
+#include "k3-am625-byteengine.dtsi"
+
+/ {
+	compatible =  "bytesatwork,bytedevkit-am62x", "bytesatwork,byteengine-am62x", "ti,am625";
+	model = "bytesatwork byteDEVKIT with byteENGINE AM62x";
+
+	aliases {
+		ethernet0 = &cpsw_port1;
+		serial2 = &main_uart0;
+		mmc0 = &sdhci0;
+		mmc1 = &sdhci1;
+		usb0 = &usb0;
+	};
+
+	chosen {
+		stdout-path = "serial2:115200n8";
+		bootargs = "console=ttyS2,115200n8 earlycon=ns16550a,mmio32,0x02800000";
+	};
+};
+
+&main_pmx0 {
+	main_uart0_pins_default: main-uart0-default-pins {
+		bootph-all;
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x1c8, PIN_INPUT, 0) /* (D14) UART0_RXD */
+			AM62X_IOPAD(0x1cc, PIN_OUTPUT, 0) /* (E14) UART0_TXD */
+		>;
+	};
+
+	main_i2c1_pins_default: main-i2c1-default-pins {
+		bootph-all;
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x1e8, PIN_INPUT_PULLUP, 0) /* (B17) I2C1_SCL */
+			AM62X_IOPAD(0x1ec, PIN_INPUT_PULLUP, 0) /* (A17) I2C1_SDA */
+		>;
+	};
+
+	main_mmc1_pins_default: main-mmc1-default-pins {
+		bootph-all;
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x23c, PIN_INPUT, 0) /* (A21) MMC1_CMD */
+			AM62X_IOPAD(0x234, PIN_INPUT, 0) /* (B22) MMC1_CLK */
+			AM62X_IOPAD(0x230, PIN_INPUT, 0) /* (A22) MMC1_DAT0 */
+			AM62X_IOPAD(0x22c, PIN_INPUT, 0) /* (B21) MMC1_DAT1 */
+			AM62X_IOPAD(0x228, PIN_INPUT, 0) /* (C21) MMC1_DAT2 */
+			AM62X_IOPAD(0x224, PIN_INPUT, 0) /* (D22) MMC1_DAT3 */
+			AM62X_IOPAD(0x240, PIN_INPUT, 0) /* (D17) MMC1_SDCD */
+		>;
+	};
+
+	main_mdio1_pins_default: main-mdio1-default-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x160, PIN_OUTPUT, 0) /* (AD24) MDIO0_MDC */
+			AM62X_IOPAD(0x15c, PIN_INPUT, 0) /* (AB22) MDIO0_MDIO */
+		>;
+	};
+
+	main_rgmii1_pins_default: main-rgmii1-default-pins {
+		bootph-all;
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x14c, PIN_INPUT, 1) /* (AB17) RMII1_RD0 */
+			AM62X_IOPAD(0x150, PIN_INPUT, 1) /* (AC17) RMII1_RD1 */
+			AM62X_IOPAD(0x148, PIN_INPUT, 1) /* (AD17) RMII1_REF_CLK */
+			AM62X_IOPAD(0x134, PIN_OUTPUT, 1) /* (AE20) RMII1_TD0 */
+			AM62X_IOPAD(0x138, PIN_OUTPUT, 1) /* (AD20) RMII1_TD1 */
+			AM62X_IOPAD(0x130, PIN_INPUT, 1) /* (AE19) RMII1_CRS_DV */
+			AM62X_IOPAD(0x12c, PIN_OUTPUT, 1) /* (AD19) RMII1_TX_EN */
+		>;
+	};
+
+	main_usb0_pins_default: main-usb0-default-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x0254, PIN_INPUT, 0) /* (C20) USB0_DRVVBUS */
+		>;
+	};
+};
+
+&main_uart0 {
+	bootph-all;
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&main_uart0_pins_default>;
+	interrupts-extended = <&gic500 GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>,
+			       <&main_pmx0 0x1c8>; /* (D14) UART0_RXD PADCONFIG114 */
+	interrupt-names = "irq", "wakeup";
+};
+
+&sdhci1 {
+	/* SD/MMC */
+	bootph-all;
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&main_mmc1_pins_default>;
+	ti,driver-strength-ohm = <50>;
+	disable-wp;
+};
+
+&usb0 {
+	bootph-all;
+	status = "okay";
+	dr_mode = "host";
+	pinctrl-names = "default";
+	pinctrl-0 = <&main_usb0_pins_default>;
+};
+
+&cpsw3g {
+	bootph-all;
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&main_mdio1_pins_default
+		     &main_rgmii1_pins_default>;
+};
+
+&cpsw_port1 {
+	bootph-all;
+	status = "okay";
+	phy-mode = "rmii";
+	phy-handle = <&cpsw3g_phy0>;
+};
+
+&cpsw_port2 {
+	status = "disabled";
+};
+
+&cpsw3g_mdio {
+	bootph-all;
+	status = "okay";
+
+	cpsw3g_phy0: ethernet-phy@0 {
+		bootph-all;
+		reg = <0>;
+	};
+};
+
+&main_i2c1 {
+	bootph-pre-ram;
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&main_i2c1_pins_default>;
+	clock-frequency = <400000>;
+
+	hwid_eeprom: eeprom@57 {
+		bootph-pre-ram;
+		compatible = "atmel,24c256";
+		reg = <0x57>;
+	};
+};

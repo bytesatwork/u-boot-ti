@@ -272,7 +272,14 @@ S:	Maintained
 W:	https://www.bytesatwork.io/
 T:	git https://github.com/bytesatwork/u-boot-ti.git
 F:	.github/workflows/checkpatch.yml
+F:	arch/arm/dts/k3-am62*bytedevkit*
+F:	arch/arm/dts/k3-am62*byteengine*
+F:	arch/arm/dts/k3-am625-bytedevkit-binman.dtsi
+F:	board/bytesatwork/
+F:	board/bytesatwork/bytedevkit_am62x/
 F:	cmd/cpuinfo.c
+F:	configs/*bytedevkit*_defconfig
+F:	include/configs/*bytedevkit*.h
 
 ARM CORTINA ACCESS CAxxxx
 M:	Alex Nemirovsky <alex.nemirovsky@cortina-access.com>

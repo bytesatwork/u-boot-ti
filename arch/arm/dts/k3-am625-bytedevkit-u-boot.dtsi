@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (C) 2026 bytesatwork AG - https://www.bytesatwork.io
+ *
+ * Based on k3-am625-sk-u-boot.dtsi
+ * Copyright (C) 2021-2022 Texas Instruments Incorporated - https://www.ti.com/
+ */
+
+#include "k3-am625-bytedevkit-binman.dtsi"
+
+/ {
+	chosen {
+		tick-timer = &main_timer0;
+	};
+};
+
+&dss {
+	clocks = <&k3_clks 186 6>,
+		 <&k3_clks 186 0>,
+		 <&k3_clks 186 2>;
+	ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
+};
+
+&main_timer0 {
+	clock-frequency = <25000000>;
+};
+
+&main_bcdma {
+	reg = <0x00 0x485c0100 0x00 0x100>,
+	      <0x00 0x4c000000 0x00 0x20000>,
+	      <0x00 0x4a820000 0x00 0x20000>,
+	      <0x00 0x4aa40000 0x00 0x20000>,
+	      <0x00 0x4bc00000 0x00 0x100000>,
+	      <0x00 0x48600000 0x00 0x8000>,
+	      <0x00 0x484a4000 0x00 0x2000>,
+	      <0x00 0x484c2000 0x00 0x2000>;
+	reg-names = "gcfg", "bchanrt", "rchanrt", "tchanrt",
+		    "ringrt" , "cfg", "tchan", "rchan";
+};
+
+&main_pktdma {
+	bootph-all;
+};
+
+&cpsw_port2 {
+	status = "disabled";
+};
+
+&phy_gmii_sel {
+	bootph-all;
+};
+
+/* Required for USB DFU Boot */
+&usb0 {
+	bootph-pre-ram;
+	status = "okay";
+	dr_mode = "peripheral";
+	/* Since role switching is not supported in U-Boot */
+	/delete-property/ extcon;
+};
+
+/* Required for USB DFU Boot */
+&usb0_phy_ctrl {
+	bootph-all;
+};
+
+&usbss0 {
+	bootph-pre-ram;
+	status = "okay";
+};
+
+&main_usb0_pins_default {
+	bootph-pre-ram;
+	status = "okay";
+};
