@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * AM625 SK dts file for SPLs
+ * Copyright (C) 2022 bytes at work AG - https://www.bytesatwork.io
+ *
+ * Based on k3-am625-sk-u-boot.dtsi and k3-am62x-sk-common-u-boot.dtsi
  * Copyright (C) 2021-2022 Texas Instruments Incorporated - https://www.ti.com/
  */
 
@@ -76,10 +78,6 @@
 	u-boot,dm-spl;
 };
 
-&main_uart1 {
-	u-boot,dm-spl;
-};
-
 &cbass_mcu {
 	u-boot,dm-spl;
 };
@@ -92,15 +90,19 @@
 	u-boot,dm-spl;
 };
 
-&wkup_uart0 {
-	u-boot,dm-spl;
-};
-
 &main_i2c0 {
 	u-boot,dm-spl;
 };
 
 &main_i2c0_pins_default {
+	u-boot,dm-spl;
+};
+
+&main_i2c1 {
+	u-boot,dm-spl;
+};
+
+&main_i2c1_pins_default {
 	u-boot,dm-spl;
 };
 
@@ -122,21 +124,7 @@
 };
 
 &usb0 {
-	dr_mode = "peripheral";
-	/* Since role switching is not supported in U-Boot */
-	/delete-property/ extcon;
-	u-boot,dm-spl;
-};
-
-&usbss1 {
-	u-boot,dm-spl;
-};
-
-&usb1 {
-	u-boot,dm-spl;
-};
-
-&main_usb1_pins_default {
+	dr_mode = "host";
 	u-boot,dm-spl;
 };
 
@@ -152,10 +140,6 @@
 		reg = <0x0 0x00104044 0x0 0x8>;
 		u-boot,dm-spl;
 	};
-};
-
-&cpsw_port2 {
-	status = "disabled";
 };
 
 &main_bcdma {
@@ -178,7 +162,11 @@
 	u-boot,dm-spl;
 };
 
-&main_rgmii1_pins_default {
+&cpsw_port2 {
+	status = "disabled";
+};
+
+&main_rmii1_pins_default {
 	u-boot,dm-spl;
 };
 
@@ -198,27 +186,10 @@
 	};
 };
 
-&main_rgmii2_pins_default {
-	u-boot,dm-spl;
-};
-
-&cpsw3g_phy1 {
-	u-boot,dm-spl;
-};
-
 &ospi0 {
 	u-boot,dm-spl;
 
 	flash@0 {
 		u-boot,dm-spl;
-
-		partitions {
-			u-boot,dm-spl;
-
-			partition@3fc0000 {
-				u-boot,dm-spl;
-			};
-		};
 	};
 };
-
