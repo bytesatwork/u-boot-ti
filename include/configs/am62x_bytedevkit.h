@@ -394,4 +394,9 @@
 #endif
 #define CONFIG_SYS_MALLOC_LEN           SZ_128M
 
+/* baw config built in defaults */
+#define BAW_CONFIG_BUILTIN_PCB 10
+#define BAW_CONFIG_BUILTIN_RAM 14
+#define BAW_CONFIG_BUILTIN_FLASH 4
+
 #endif /* __CONFIG_AM62X_BYTEDEVKIT_H */
