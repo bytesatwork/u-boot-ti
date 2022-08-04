@@ -68,6 +68,46 @@ config BAW_COMMON_CMD_OPTIONS
 	imply CMD_TIME
 	imply CMD_USB if USB
 
+menu "bytes at work config tool"
+
+config CMD_BAW_CONFIG
+	bool "bawconfig command"
+	default y if !SPL
+	help
+	  Enable bawconfig command functionality. Enables to read and write
+	  Production data.
+
+config BAW_CONFIG_EEPROM
+	bool "bawconfig eeprom support"
+	default y
+	select DM_I2C
+	help
+	  Enable bawconfig EEPROM read/write functionality. Read and write
+	  Production data from the the dedicated EEPROM.
+
+config BAW_CONFIG_EEPROM_BUS
+	int "bawconfig I2C bus number"
+	default 0
+	help
+	  I2C bus number of configuration EEPROM. Depending on the SoC and or
+	  SoM this should be adapted.
+
+config BAW_CONFIG_EEPROM_ADDRESS
+	hex "bawconfig I2C address"
+	default 0x50
+	help
+	  I2C address of configuration EEPROM. Depending on the SoM this could
+	  be adapted.
+
+config BAW_CONFIG_BUILTIN
+	bool "bawconfig builtin support"
+	default n
+	help
+	  Enable bawconfig builtin configuration functionality. Compile in a
+	  basic set of production data, especially the RAM size.
+
+endmenu
+
 endif
 
 if TARGET_AM62X_BYTEDEVKIT_R5
