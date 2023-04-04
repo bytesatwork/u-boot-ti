@@ -136,19 +136,21 @@ cp -vp ti-u-boot/build-a53/u-boot.img <path-to-SD-boot-partition>/
 └── ti-u-boot
 ```
 
-## Prepare SPI boot
+## Prepare eMMC boot
 
 Program the `tiboot3.bin`, `tispl.bin` and `u-boot.img` from the SD card to the
-SPI flash.
+eMMC.
 
 ```log
-=> sf probe
-=> fatload mmc 1 ${loadaddr} tiboot3.bin
-=> sf update $loadaddr 0x0 $filesize
-=> fatload mmc 1 ${loadaddr} tispl.bin
-=> sf update $loadaddr 0x80000 $filesize
-=> fatload mmc 1 ${loadaddr} u-boot.img
-=> sf update $loadaddr 0x280000 $filesize
+=> run update_emmc
 ```
 
-**NOTE:** Force SPI boot with the BOOT MODE DIP switches on the byteDEVKIT.
+The bootloader needs to be stored in the boot0 hardware partition of the eMMC.
+The layout of boot0 is defined so that it fits within 4 MiB, defined in blocks
+of 512 Bytes:
+```
+                start   end     size    size
+tiboot3.bin     0x0000  0x0400  0x0400   512 KiB
+tispl.bin       0x0400  0x1000  0x0C00  1536 KiB
+u-boot.img      0x1000  0x2000  0x1000  2048 KiB
+```
