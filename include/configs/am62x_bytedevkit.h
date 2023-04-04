@@ -88,13 +88,15 @@
 		"load mmc ${mmc_dev}:${mmc_part} ${dtbaddr} ${bootdir}/${dtbfile} || exit; " \
 		"booti ${loadaddr} - ${dtbaddr}; " \
 	"\0" \
-	"update_spi=sf probe; " \
-		"fatload mmc 1 ${loadaddr} tiboot3.bin; " \
-		"sf update $loadaddr 0x0 $filesize; " \
-		"fatload mmc 1 ${loadaddr} tispl.bin; " \
-		"sf update $loadaddr 0x80000 $filesize; " \
-		"fatload mmc 1 ${loadaddr} u-boot.img; " \
-		"sf update $loadaddr 0x280000 $filesize; " \
+	"update_emmc=echo Writing bootloader to eMMC; " \
+		"mmc dev 0 1; " \
+		"load mmc 1 ${loadaddr} tiboot3.bin; " \
+		"mmc write ${loadaddr} 0x0 0x400; " \
+		"load mmc 1 ${loadaddr} tispl.bin; " \
+		"mmc write ${loadaddr} 0x400 0xC00; " \
+		"load mmc 1 ${loadaddr} u-boot.img; " \
+		"mmc write ${loadaddr} 0x1000 0x1000; " \
+		"mmc dev 0 0; " \
 	"\0"
 
 /* The remaining common defines, source <configs/ti_armv7_common.h> */

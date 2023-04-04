@@ -11,7 +11,6 @@
 / {
 	aliases {
 		mmc0 = &sdhci0;
-		spi0 = &ospi0;
 	};
 
 	memory@80000000 {
@@ -64,17 +63,6 @@
 			AM62X_IOPAD(0x200, PIN_INPUT, 0) /* (AC1) MMC0_DAT5 */
 			AM62X_IOPAD(0x1fc, PIN_INPUT, 0) /* (AD2) MMC0_DAT6 */
 			AM62X_IOPAD(0x1f8, PIN_INPUT, 0) /* (AC2) MMC0_DAT7 */
-		>;
-	};
-
-	ospi0_pins_default: ospi0-pins-default {
-		pinctrl-single,pins = <
-			AM62X_IOPAD(0x000, PIN_OUTPUT, 0) /* (H24) OSPI0_CLK */
-			AM62X_IOPAD(0x02c, PIN_OUTPUT, 0) /* (F23) OSPI0_CSn0 */
-			AM62X_IOPAD(0x00c, PIN_INPUT, 0) /* (E25) OSPI0_D0 */
-			AM62X_IOPAD(0x010, PIN_INPUT, 0) /* (G24) OSPI0_D1 */
-			AM62X_IOPAD(0x014, PIN_INPUT, 0) /* (F25) OSPI0_D2 */
-			AM62X_IOPAD(0x018, PIN_INPUT, 0) /* (F24) OSPI0_D3 */
 		>;
 	};
 };
@@ -153,51 +141,5 @@
 };
 
 &ospi0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&ospi0_pins_default>;
-	status = "okay";
-
-	flash@0{
-		compatible = "jedec,spi-nor";
-		reg = <0x0>;
-		spi-tx-bus-width = <4>;
-		spi-rx-bus-width = <4>;
-		spi-max-frequency = <133000000>;
-
-		partitions {
-			compatible = "fixed-partitions";
-			#address-cells = <1>;
-			#size-cells = <1>;
-
-			partition@0 {
-				label = "ospi.tiboot3";
-				reg = <0x0 0x80000>;
-			};
-
-			partition@80000 {
-				label = "ospi.tispl";
-				reg = <0x80000 0x200000>;
-			};
-
-			partition@280000 {
-				label = "ospi.u-boot";
-				reg = <0x280000 0x400000>;
-			};
-
-			partition@680000 {
-				label = "ospi.env";
-				reg = <0x680000 0x40000>;
-			};
-
-			partition@6c0000 {
-				label = "ospi.env.backup";
-				reg = <0x6c0000 0x40000>;
-			};
-
-			partition@800000 {
-				label = "ospi.rootfs";
-				reg = <0x800000 0x800000>;
-			};
-		};
-	};
+	status = "disabled";
 };
