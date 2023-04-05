@@ -9,7 +9,7 @@
 #include <config.h>
 #include <linux/types.h>
 
-typedef enum {
+enum baw_config_pcb {
 	M2_PCB_REV_00 = 0,
 	M2_PCB_REV_01 = 1,
 	M2_PCB_REV_02 = 2,
@@ -21,9 +21,9 @@ typedef enum {
 	M6_PCB_REV_1_1 = 8,
 	M8_PCB_REV_0_1 = 9,
 	M8_PCB_REV_1_0 = 10,
-} baw_config_pcb_t;
+};
 
-typedef enum {
+enum baw_config_ram {
 	M2_RAM_MT47H128M16RT25E = 1,
 	M2_RAM_K4B2G1646EBIH9   = 2,
 	M2_RAM_K4B2G1646QBCK0   = 3,
@@ -45,21 +45,21 @@ typedef enum {
 	M8_RAM_MT53E4G16D4NQ_046 = 16,
 	M5_RAM_K4B4G1646DBIK0 = 17,
 	M5_RAM_MT41K512M16HA107 = 18,
-} baw_config_ram_t;
+};
 
-typedef enum {
+enum baw_config_flash {
 	M2_NAND_2GBIT  = 0,
 	M2_NAND_4GBIT  = 1,
 	EMMC_4GB  = 2,
 	EMMC_8GB  = 3,
 	EMMC_16GB = 4,
 	EMMC_32GB = 5,
-} baw_config_flash_t;
+};
 
 struct baw_config {
-	baw_config_pcb_t pcb;
-	baw_config_ram_t ram;
-	baw_config_flash_t flash;
+	enum baw_config_pcb pcb;
+	enum baw_config_ram ram;
+	enum baw_config_flash flash;
 	bool ext_avail;
 	u32 artno;
 	u32 lot;
@@ -83,17 +83,17 @@ extern const struct baw_config_name_pair baw_config_flash_name[];
 
 const char *baw_config_get_name(u32 config, const struct baw_config_name_pair *map);
 
-static inline const char *baw_config_get_pcb_name(baw_config_pcb_t config)
+static inline const char *baw_config_get_pcb_name(enum baw_config_pcb config)
 {
 	return baw_config_get_name(config, baw_config_pcb_name);
 }
 
-static inline const char *baw_config_get_ram_name(baw_config_ram_t config)
+static inline const char *baw_config_get_ram_name(enum baw_config_ram config)
 {
 	return baw_config_get_name(config, baw_config_ram_name);
 }
 
-static inline const char *baw_config_get_flash_name(baw_config_flash_t config)
+static inline const char *baw_config_get_flash_name(enum baw_config_flash config)
 {
 	return baw_config_get_name(config, baw_config_flash_name);
 }

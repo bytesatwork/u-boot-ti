@@ -194,12 +194,9 @@ int baw_config_eeprom_read(struct baw_config *config)
 	config->lot = frame.content_ext.content.lot;
 	config->lotseq = frame.content_ext.content.lotseq;
 
-	strlcpy(config->proddate, frame.content_ext.content.proddate,
-		sizeof(config->proddate));
-	strlcpy(config->flashdate, frame.content_ext.content.flashdate,
-		sizeof(config->flashdate));
-	strlcpy(config->flashuser, frame.content_ext.content.flashuser,
-		sizeof(config->flashuser));
+	strlcpy(config->proddate, frame.content_ext.content.proddate, sizeof(config->proddate));
+	strlcpy(config->flashdate, frame.content_ext.content.flashdate, sizeof(config->flashdate));
+	strlcpy(config->flashuser, frame.content_ext.content.flashuser, sizeof(config->flashuser));
 
 	config->ext_avail = 1;
 
@@ -209,8 +206,7 @@ int baw_config_eeprom_read(struct baw_config *config)
 		return 0;
 	}
 
-	if (frame.content_track.header.length !=
-			sizeof(frame.content_track.content)) {
+	if (frame.content_track.header.length != sizeof(frame.content_track.content)) {
 		printf("track len wrong\n");
 		return 0;
 	}
@@ -221,10 +217,8 @@ int baw_config_eeprom_read(struct baw_config *config)
 		return 0;
 	}
 
-	strlcpy(config->macaddr, frame.content_track.content.macaddr,
-		sizeof(config->macaddr));
-	strlcpy(config->uid, frame.content_track.content.uid,
-		sizeof(config->uid));
+	strlcpy(config->macaddr, frame.content_track.content.macaddr, sizeof(config->macaddr));
+	strlcpy(config->uid, frame.content_track.content.uid, sizeof(config->uid));
 
 	config->track_avail = 1;
 
