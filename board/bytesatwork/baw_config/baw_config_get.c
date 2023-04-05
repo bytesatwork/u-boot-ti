@@ -6,6 +6,7 @@
 #include <linux/types.h>
 #include <i2c.h>
 #include <stdio.h>
+#include <dm/uclass.h>
 #include "baw_config_get.h"
 
 #include "baw_config_builtin.h"
@@ -25,26 +26,50 @@ void baw_config_get(struct baw_config *config)
 		return;
 	}
 
-#if defined(CONFIG_SPL_BUILD) && defined(CONFIG_TARGET_BYTEENGINE_AM335X)
-	if (i2c_read(PMIC_ADDRESS, 0x20, 1, &reg, 1) != 0) {
-		printf("Error: PMIC read failed\n");
-		goto default_config;
-	} else {
-		if (reg == 0x05) {
-			config->ram = M2_RAM_MT47H128M16RT25E;	/* set DDR2 */
-			printf("DDR2 detected\n");
-		} else if (reg == 0x01) {
-			config->ram = M2_RAM_K4B2G1646EBIH9;	/* set legacy DDR3 */
-			printf("DDR3 detected\n");
-		} else {
+	if (IS_ENABLED(CONFIG_SPL_BUILD) && IS_ENABLED(CONFIG_TARGET_BYTEENGINE_AM335X) &&
+	    IS_ENABLED(CONFIG_DM_I2C)) {
+		struct udevice *pmic;
+		struct udevice *bus;
+		int ret;
+
+		ret = uclass_get_device_by_seq(UCLASS_I2C, CONFIG_BAW_CONFIG_EEPROM_BUS, &bus);
+		if (ret) {
+			printf("%s(): uclass_get_device_by_seq(): %d\n", __func__, ret);
 			goto default_config;
 		}
+
+		ret = dm_i2c_probe(bus, PMIC_ADDRESS, 0, &pmic);
+		if (ret) {
+			printf("%s(): dm_i2c_probe(): %d\n", __func__, ret);
+			goto default_config;
+		}
+
+		ret = i2c_set_chip_offset_len(pmic, 1);
+		if (ret) {
+			printf("%s(): i2c_set_chip_offset_len(): %d\n", __func__, ret);
+			goto default_config;
+		}
+
+		ret = dm_i2c_read(pmic, 0x20, &reg, 1);
+		if (ret) {
+			printf("Error: PMIC read failed\n");
+			goto default_config;
+		} else {
+			if (reg == 0x05) {
+				config->ram = M2_RAM_MT47H128M16RT25E;	/* set DDR2 */
+				printf("DDR2 detected\n");
+			} else if (reg == 0x01) {
+				config->ram = M2_RAM_K4B2G1646EBIH9;	/* set legacy DDR3 */
+				printf("DDR3 detected\n");
+			} else {
+				goto default_config;
+			}
+		}
+
+		return;
 	}
 
-	return;
-
 default_config:
-#endif
 
 	if (IS_ENABLED(CONFIG_BAW_CONFIG_BUILTIN)) {
 		config->ram = BAW_CONFIG_BUILTIN_RAM;

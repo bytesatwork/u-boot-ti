@@ -11,6 +11,7 @@
 #include <i2c.h>
 #include <hexdump.h>
 #include <u-boot/crc.h>
+#include <linux/delay.h>
 
 #define EEPROM_MAXWRITE		64	/* max. page size for writes */
 #define MAGIC			0x6268
@@ -78,18 +79,15 @@ struct eeprom_read_frame {
 
 int baw_config_eeprom_init(void)
 {
-#ifdef CONFIG_DM_I2C
 	int ret;
 
-	ret = uclass_get_device_by_seq(UCLASS_I2C, CONFIG_BAW_CONFIG_EEPROM_BUS,
-				       &busp);
+	ret = uclass_get_device_by_seq(UCLASS_I2C, CONFIG_BAW_CONFIG_EEPROM_BUS, &busp);
 	if (ret) {
 		printf("%s(): uclass_get_device_by_seq(): %d\n", __func__, ret);
 		return ret;
 	}
 
-	ret = dm_i2c_probe(busp, CONFIG_BAW_CONFIG_EEPROM_ADDRESS, 0,
-			   &baw_config_dev);
+	ret = dm_i2c_probe(busp, CONFIG_BAW_CONFIG_EEPROM_ADDRESS, 0, &baw_config_dev);
 	if (ret) {
 		printf("%s(): dm_i2c_probe(): %d\n", __func__, ret);
 		return ret;
@@ -101,7 +99,6 @@ int baw_config_eeprom_init(void)
 		return ret;
 	}
 
-#endif
 	return 0;
 }
 
@@ -115,13 +112,7 @@ static int i2c_write_rdy(void)
 	u8 dummy = 0xff; /* i2c_write doesn't like to write NULL pointers */
 
 	for (i = 0; ret < 0 && i < 10; ++i) {
-#ifndef CONFIG_DM_I2C
-		i2c_set_bus_num(CONFIG_BAW_CONFIG_EEPROM_BUS);
-		ret = i2c_write(CONFIG_BAW_CONFIG_EEPROM_ADDRESS, 0, 2, &dummy,
-				0);
-#else
 		ret = dm_i2c_write(baw_config_dev, 0, &dummy, 0);
-#endif
 		if (ret != 0)
 			udelay(500);
 	}
@@ -146,14 +137,8 @@ int i2c_long_write(struct eeprom_write_frame frame, int len)
 			ret = -EIO;
 			break;
 		}
-#ifndef CONFIG_DM_I2C
-		ret = i2c_write(CONFIG_BAW_CONFIG_EEPROM_ADDRESS, off, 2,
-				(u8 *)(&frame) + off, wlen);
-#else
-		ret = dm_i2c_write(baw_config_dev, off, (u8 *)(&frame) + off,
-				   wlen);
-#endif
 
+		ret = dm_i2c_write(baw_config_dev, off, (u8 *)(&frame) + off, wlen);
 		if (ret != 0) {
 			ret = -EIO;
 			break;
@@ -170,15 +155,8 @@ int baw_config_eeprom_read(struct baw_config *config)
 {
 	struct eeprom_read_frame frame;
 
-#ifndef CONFIG_DM_I2C
-	i2c_set_bus_num(CONFIG_BAW_CONFIG_EEPROM_BUS);
-	if (i2c_read(CONFIG_BAW_CONFIG_EEPROM_ADDRESS, 0, 2, (u8 *)&frame,
-		     sizeof(frame)) != 0)
-		return -3;
-#else
 	if (dm_i2c_read(baw_config_dev, 0, (u8 *)&frame, sizeof(frame)))
 		return -12;
-#endif
 
 	if (frame.content.header.magic != MAGIC)
 		return -4;
