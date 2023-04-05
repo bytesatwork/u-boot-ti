@@ -19,10 +19,11 @@ void baw_config_get(struct baw_config *config)
 	u8 __attribute__((unused)) reg = 0;
 
 	if (baw_config_eeprom_read(config) == 0) {
-#ifdef CONFIG_SPL_BUILD
-		printf("Use EEPROM RAM config: %u (%s)\n", config->ram,
-		       baw_config_get_ram_name(config->ram));
-#endif
+		if (IS_ENABLED(CONFIG_SPL_BUILD)) {
+			printf("Use EEPROM RAM config: %u (%s)\n", config->ram,
+			       baw_config_get_ram_name(config->ram));
+		}
+
 		return;
 	}
 
