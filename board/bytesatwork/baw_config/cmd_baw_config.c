@@ -189,8 +189,7 @@ static enum command_ret_t print_configurations(void)
 	return CMD_RET_SUCCESS;
 }
 
-enum command_ret_t do_baw_config(cmd_tbl_t *cmdtp, int flag, int argc,
-				 char * const argv[])
+static int do_baw_config(struct cmd_tbl *cmdtp, int flag, int argc, char * const argv[])
 {
 	if (argc >= 2) {
 		const struct baw_config_cmd_struct *cmd = get_cmd(argv[1]);
