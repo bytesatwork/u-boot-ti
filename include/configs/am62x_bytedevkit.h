@@ -80,12 +80,18 @@
 		"root=/dev/mmcblk${mmc_dev}p${mmc_part} " \
 		"rootfstype=ext4 rootwait ${bootargs_append}; " \
 	"\0" \
+	"dtb_fixups=fdt addr ${dtbaddr}; fdt resize 0x10000; " \
+		"setexpr second_mac gsub ':' ' ' $eth1addr; " \
+		"fdt set /bus@f0000/ethernet@8000000/ethernet-ports/port@2 "\
+			"mac-address [${second_mac}]" \
+	"\0" \
 	"mmc_boot=echo Booting from SD/MMC ...; run args_mmc; run generic_boot\0" \
 	"emmc_boot=echo Booting from eMMC ...; run args_emmc; run generic_boot\0" \
 	"generic_boot=" \
 		"run args_generic; " \
 		"load mmc ${mmc_dev}:${mmc_part} ${loadaddr} ${bootdir}/${kernelfile} || exit; " \
 		"load mmc ${mmc_dev}:${mmc_part} ${dtbaddr} ${bootdir}/${dtbfile} || exit; " \
+		"run dtb_fixups; " \
 		"booti ${loadaddr} - ${dtbaddr}; " \
 	"\0" \
 	"update_emmc=echo Writing bootloader to eMMC; " \
