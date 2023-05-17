@@ -17,6 +17,7 @@
 #include <asm/arch/hardware.h>
 #include <asm/arch/sys_proto.h>
 #include <env.h>
+#include <net.h>
 
 #include "../baw_config/baw_config_eeprom.h"
 
@@ -110,6 +111,34 @@ int board_late_init(void)
 	return 0;
 }
 #endif
+
+int last_stage_init(void)
+{
+	unsigned char ethaddr[6] = {0};
+	int ret;
+
+	/* Manually increase 2nd MAC address by one */
+	ret = eth_env_get_enetaddr_by_index("eth", 0, ethaddr);
+	if (ret) {
+		for (int i = 5; i > 2; i--) {
+			ethaddr[i]++;
+			if (ethaddr[i])
+				break;
+		}
+	} else {
+		printf("Invalid MAC address at index 0!");
+	}
+
+	ret = eth_env_set_enetaddr_by_index("eth", 1, ethaddr);
+	if (ret) {
+		if (ret == -EEXIST)
+			printf("Use MAC address at index 1 from env.\n");
+		else
+			printf("Set env MAC address at index 1 failed! (%d)\n", ret);
+	}
+
+	return 0;
+}
 
 #define CTRLMMR_USB0_PHY_CTRL	0x43004008
 #define CTRLMMR_USB1_PHY_CTRL	0x43004018
