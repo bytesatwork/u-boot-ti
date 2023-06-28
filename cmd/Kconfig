@@ -162,6 +162,13 @@ config CMD_CPU
 	  internal name) and clock frequency. Other information may be
 	  available depending on the CPU driver.
 
+config CMD_CPUINFO
+	bool "cpuinfo"
+	depends on DISPLAY_CPUINFO
+	help
+	  Wrapps print_cpuinfo() into a command.
+	  Print information about the CPU to the console.
+
 config CMD_FWU_METADATA
 	bool "fwu metadata read"
 	depends on FWU_MULTI_BANK_UPDATE
