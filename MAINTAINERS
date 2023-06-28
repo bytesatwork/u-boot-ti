@@ -197,6 +197,7 @@ F:	board/bytesatwork/
 F:	board/bytesatwork/bytedevkit/
 F:	configs/*bytedevkit*_defconfig
 F:	include/configs/*bytedevkit*.h
+F:	cmd/cpuinfo.c
 
 ARM CORTINA ACCESS CAxxxx
 M:	Alex Nemirovsky <alex.nemirovsky@cortina-access.com>
