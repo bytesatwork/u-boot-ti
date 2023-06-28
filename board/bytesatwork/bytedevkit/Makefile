@@ -7,3 +7,4 @@
 #	Suman Anna <s-anna@ti.com>
 
 obj-y	+= am62x_bytedevkit.o
+obj-y	+= ../baw_config/
