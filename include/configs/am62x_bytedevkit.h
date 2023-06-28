@@ -14,6 +14,11 @@
 #define CFG_SYS_SDRAM_BASE1		0x880000000
 #define CFG_SYS_SDRAM_BASE		0x80000000
 
+/* baw config built in defaults */
+#define BAW_CONFIG_BUILTIN_PCB 10
+#define BAW_CONFIG_BUILTIN_RAM 14
+#define BAW_CONFIG_BUILTIN_FLASH 3
+
 #define CFG_EXTRA_ENV_SETTINGS \
 	"console=ttyS2,115200n8\0" \
 	"dtbfile=k3-am625-bytedevkit.dtb\0" \
