@@ -18,8 +18,6 @@
 #include <asm/arch/sys_proto.h>
 #include <env.h>
 
-#include "baw_config/baw_config_eeprom.h"
-
 DECLARE_GLOBAL_DATA_PTR;
 
 int board_init(void)
@@ -101,7 +99,7 @@ void spl_perform_fixups(struct spl_image_info *spl_image)
 #ifdef CONFIG_BOARD_LATE_INIT
 int board_late_init(void)
 {
-	return baw_config_eeprom_init();
+	return 0;
 }
 #endif
 
@@ -133,7 +131,6 @@ void spl_board_init(void)
 	writel(MCU_CTRL_DEVICE_CLKOUT_LFOSC_SELECT_VAL,
 	       MCU_CTRL_DEVICE_CLKOUT_32K_CTRL);
 
-	baw_config_eeprom_init();
 	/* Init DRAM size for R5/A53 SPL */
 	dram_init_banksize();
 }
