@@ -92,6 +92,7 @@
 		"load mmc ${mmc_dev}:${mmc_part} ${loadaddr} ${bootdir}/${kernelfile} || exit; " \
 		"load mmc ${mmc_dev}:${mmc_part} ${dtbaddr} ${bootdir}/${dtbfile} || exit; " \
 		"run dtb_fixups; " \
+		"run enable_oldi; " \
 		"booti ${loadaddr} - ${dtbaddr}; " \
 	"\0" \
 	"update_emmc=echo Writing bootloader to eMMC; " \
@@ -103,6 +104,9 @@
 		"load mmc 1 ${loadaddr} u-boot.img; " \
 		"mmc write ${loadaddr} 0x1000 0x1000; " \
 		"mmc dev 0 0; " \
+	"\0" \
+	"enable_oldi=mw.l 0x00109008 0x68EF3490; mw.l 0x0010900C 0xD172BC5A; " \
+		"mw.l 0x00108700 0x00000000; " \
 	"\0"
 
 /* The remaining common defines, source <configs/ti_armv7_common.h> */
