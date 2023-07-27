@@ -256,6 +256,7 @@ F:	arch/arm/dts/k3-am62*bytedevkit*
 F:	arch/arm/dts/k3-am62*byteengine*
 F:	board/bytesatwork/
 F:	board/bytesatwork/bytedevkit/
+F:	board/bytesatwork/bytedevkit/*yaml
 F:	configs/*bytedevkit*_defconfig
 F:	include/configs/*bytedevkit*.h
 F:	cmd/cpuinfo.c
