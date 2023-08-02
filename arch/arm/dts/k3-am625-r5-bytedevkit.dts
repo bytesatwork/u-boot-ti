@@ -27,7 +27,7 @@
 		/* 2G RAM */
 		reg = <0x00000000 0x80000000 0x00000000 0x80000000>;
 
-		u-boot,dm-spl;
+		bootph-pre-ram;
 	};
 
 	reserved-memory {
@@ -55,7 +55,7 @@
 		ti,sci = <&dmsc>;
 		ti,sci-proc-id = <32>;
 		ti,sci-host-id = <10>;
-		u-boot,dm-spl;
+		bootph-pre-ram;
 	};
 
 	dm_tifs: dm-tifs {
@@ -65,7 +65,7 @@
 		mbox-names = "rx", "tx";
 		mboxes= <&secure_proxy_main 22>,
 			<&secure_proxy_main 23>;
-		u-boot,dm-spl;
+		bootph-pre-ram;
 	};
 };
 
@@ -83,13 +83,13 @@
 		compatible = "ti,j721e-esm";
 		reg = <0x0 0x4100000 0x0 0x1000>;
 		ti,esm-pins = <0>, <1>, <2>, <85>;
-		u-boot,dm-spl;
+		bootph-pre-ram;
 	};
 };
 
 &cbass_main {
 	sa3_secproxy: secproxy@44880000 {
-		u-boot,dm-spl;
+		bootph-pre-ram;
 		compatible = "ti,am654-secure-proxy";
 		#mbox-cells = <1>;
 		reg-names = "rt", "scfg", "target_data";
@@ -102,14 +102,14 @@
 		compatible = "ti,am654-system-controller";
 		mboxes= <&secure_proxy_main 1>, <&secure_proxy_main 0>, <&sa3_secproxy 0>;
 		mbox-names = "tx", "rx", "boot_notify";
-		u-boot,dm-spl;
+		bootph-pre-ram;
 	};
 
 	main_esm: esm@420000 {
 		compatible = "ti,j721e-esm";
 		reg = <0x0 0x420000 0x0 0x1000>;
 		ti,esm-pins = <160>, <161>, <162>, <163>, <177>, <178>;
-		u-boot,dm-spl;
+		bootph-pre-ram;
 	};
 };
 
@@ -119,5 +119,6 @@
 
 &main_bcdma {
 	ti,sci = <&dm_tifs>;
+	bootph-pre-ram;
 };
 
