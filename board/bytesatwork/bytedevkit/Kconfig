@@ -13,20 +13,18 @@ choice
 config TARGET_AM62X_BYTEDEVKIT_A53
 	bool "byteENGINE-AM62x on byteDEVKIT running on A53"
 	select ARM64
-	select SOC_K3_AM625
+	select BINMAN
 	select LAST_STAGE_INIT
-	imply BOARD
-	imply SPL_BOARD
 
 config TARGET_AM62X_BYTEDEVKIT_R5
 	bool "byteENGINE-AM62x on byteDEVKIT running on R5"
 	select CPU_V7R
 	select SYS_THUMB_BUILD
 	select K3_LOAD_SYSFW
-	select SOC_K3_AM625
 	select RAM
 	select SPL_RAM
 	select K3_DDRSS
+	select BINMAN
 	imply SYS_K3_SPL_ATF
 
 endchoice

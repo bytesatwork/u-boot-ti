@@ -6,6 +6,8 @@
  * Copyright (C) 2021-2022 Texas Instruments Incorporated - https://www.ti.com/
  */
 
+#include "k3-am625-bytedevkit-binman.dtsi"
+
 / {
 	chosen {
 		stdout-path = "serial2:115200n8";
@@ -26,9 +28,6 @@
 	bootph-pre-ram;
 
 	timer1: timer@2400000 {
-		compatible = "ti,omap5430-timer";
-		reg = <0x00 0x2400000 0x00 0x80>;
-		ti,timer-alwon;
 		clock-frequency = <25000000>;
 		bootph-pre-ram;
 	};
@@ -87,6 +86,7 @@
 };
 
 &main_i2c0 {
+	status = "okay";
 	bootph-pre-ram;
 };
 
@@ -95,11 +95,12 @@
 };
 
 &sdhci0 {
+	status = "okay";
 	bootph-pre-ram;
 };
 
 &sdhci1 {
-	sdhci-caps-mask = <0x00000007 0x00000000>;
+	status = "okay";
 	bootph-pre-ram;
 };
 
@@ -108,15 +109,20 @@
 };
 
 &usbss0 {
+	status = "okay";
 	bootph-pre-ram;
 };
 
 &usb0 {
+	status = "okay";
 	dr_mode = "peripheral";
+	/* Since role switching is not supported in U-Boot */
+	/delete-property/ extcon;
 	bootph-pre-ram;
 };
 
 &main_usb0_pins_default {
+	status = "okay";
 	bootph-pre-ram;
 };
 
@@ -125,6 +131,8 @@
 	      <0x0 0x43000200 0x0 0x8>;
 	reg-names = "cpsw_nuss", "mac_efuse";
 	/delete-property/ ranges;
+	/* This is WA because MDIO driver is not DM enabled */
+	/* pinctrl-0 = <&main_mdio1_pins_default &main_rmii1_pins_default>; */
 	bootph-pre-ram;
 
 	cpsw-phy-sel@04044 {
@@ -134,19 +142,43 @@
 	};
 };
 
+&cpsw_port1 {
+	bootph-pre-ram;
+};
+
+&cpsw_port2 {
+	status = "disabled";
+};
+
 &main_bcdma {
 	bootph-pre-ram;
+	reg = <0x00 0x485c0100 0x00 0x100>,
+	      <0x00 0x4c000000 0x00 0x20000>,
+	      <0x00 0x4a820000 0x00 0x20000>,
+	      <0x00 0x4aa40000 0x00 0x20000>,
+	      <0x00 0x4bc00000 0x00 0x100000>,
+	      <0x00 0x48600000 0x00 0x8000>,
+	      <0x00 0x484a4000 0x00 0x2000>,
+	      <0x00 0x484c2000 0x00 0x2000>;
+	reg-names = "gcfg", "bchanrt", "rchanrt", "tchanrt",
+		    "ringrt" , "cfg", "tchan", "rchan";
 };
 
 &main_pktdma {
 	bootph-pre-ram;
+	reg = <0x00 0x485c0000 0x00 0x100>,
+	      <0x00 0x4a800000 0x00 0x20000>,
+	      <0x00 0x4aa00000 0x00 0x20000>,
+	      <0x00 0x4b800000 0x00 0x200000>,
+	      <0x00 0x485e0000 0x00 0x10000>,
+	      <0x00 0x484a0000 0x00 0x2000>,
+	      <0x00 0x484c0000 0x00 0x2000>,
+	      <0x00 0x48430000 0x00 0x1000>;
+	reg-names = "gcfg", "rchanrt", "tchanrt", "ringrt",
+		    "cfg", "tchan", "rchan", "rflow";
 };
 
 &fss {
-	bootph-pre-ram;
-};
-
-&cpsw_port1 {
 	bootph-pre-ram;
 };
 
@@ -155,10 +187,6 @@
 };
 
 &main_mdio1_pins_default {
-	bootph-pre-ram;
-};
-
-&cpsw3g_phy0 {
 	bootph-pre-ram;
 };
 
@@ -171,6 +199,7 @@
 };
 
 &main_i2c1 {
+	status = "okay";
 	bootph-pre-ram;
 };
 

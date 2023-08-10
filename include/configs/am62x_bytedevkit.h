@@ -26,7 +26,7 @@
 		"run emmc_boot; " \
 	"fi; "
 
-#define CONFIG_EXTRA_ENV_SETTINGS \
+#define CFG_EXTRA_ENV_SETTINGS \
 	"console=ttyS2,115200n8\0" \
 	"dtbfile=" CONFIG_DEFAULT_DEVICE_TREE ".dtb\0" \
 	"kernelfile=Image\0" \

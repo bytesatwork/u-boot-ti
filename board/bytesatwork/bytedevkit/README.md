@@ -37,6 +37,28 @@ git checkout 08.04.00.002
 make CROSS_COMPILE=aarch64-linux-gnu- PLAT=k3 TARGET_BOARD=lite SPD=opteed all
 ```
 
+```bash
+make ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu- PLAT=k3 TARGET_BOARD=lite SPD=opteed K3_PM_SYSTEM_SUSPEND=1
+```
+
+**NOTE:** build with "new" debian toolchain needs following change:
+
+```diff
+diff --git a/Makefile b/Makefile
+index f4d623eca..d0b3fdb9a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -468,7 +468,7 @@ TF_LDFLAGS          +=      $(subst --,-Xlinker --,$(TF_LDFLAGS_$(ARCH)))
+
+ # LD = gcc-ld (ld) or llvm-ld (ld.lld) or other
+ else
+-TF_LDFLAGS             +=      --fatal-warnings -O1
++TF_LDFLAGS             +=      --fatal-warnings -O1 --no-warn-rwx-segments
+ TF_LDFLAGS             +=      --gc-sections
+ # ld.lld doesn't recognize the errata flags,
+ # therefore don't add those in that case
+```
+
 ## optee-os
 
 ### Download OP-TEE Trusted OS
@@ -53,6 +75,10 @@ git checkout 08.04.00.002
 make ARCH=arm CROSS_COMPILE64=aarch64-linux-gnu- PLATFORM=k3-j721e CFG_ARM64_core=y all
 ```
 
+```bash
+make CROSS_COMPILE64=aarch64-linux-gnu- CROSS_COMPILE=arm-linux-gnueabihf- PLATFORM=k3-am62x CFG_ARM64_core=y
+```
+
 **NOTE:** On fail check for missing python dependencies, e.g. `python3-pycryptodome`.
 
 ## u-boot
@@ -65,6 +91,8 @@ cd ti-u-boot
 git checkout baw-ti-u-boot-2021.01
 ```
 
+**NOTE:** Uses binman which uses jsonschema `apt install python3-jsonschema`
+
 ### Build u-boot for R5
 
 ```bash
@@ -73,6 +101,16 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=build-r5 -j`nproc`
 ```
 
 **NOTE:** Clean command: `make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=build-r5 distclean`
+
+```bash
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=build-r5 am62x_bytedevkit_r5_defconfig
+```
+
+```bash
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=build-r5 distclean
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=build-r5 am62x_bytedevkit_r5_defconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=build-r5 BINMAN_INDIRS=`pwd`/../ti-linux-firmware -j `nproc`
+```
 
 ### Build u-boot for A53
 
@@ -87,6 +125,23 @@ ATF=`pwd`/../arm-trusted-firmware/build/k3/lite/release/bl31.bin \
 TEE=`pwd`/../ti-optee-os/out/arm-plat-k3/core/tee-pager_v2.bin \
 DM=`pwd`/../ti-linux-firmware/ti-dm/am62xx/ipc_echo_testb_mcu1_0_release_strip.xer5f \
 O=build-a53 -j`nproc`
+```
+
+```bash
+make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- O=build-a53 distclean
+make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- O=build-a53 am62x_bytedevkit_a53_defconfig
+make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- BL31=`pwd`/../arm-trusted-firmware/build/k3/lite/release/bl31.bin TEE=`pwd`/../ti-optee-os/out/arm-plat-k3/core/tee-pager_v2.bin O=build-a53 BINMAN_INDIRS=`pwd`/../ti-linux-firmware -j `nproc`
+```
+
+all in one:
+
+```bash
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=build-r5 distclean && \
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=build-r5 am62x_bytedevkit_r5_defconfig && \
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- O=build-r5 BINMAN_INDIRS=`pwd`/../ti-linux-firmware -j `nproc` && \
+make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- O=build-a53 distclean && \
+make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- O=build-a53 am62x_bytedevkit_a53_defconfig && \
+make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- BL31=`pwd`/../arm-trusted-firmware/build/k3/lite/release/bl31.bin TEE=`pwd`/../ti-optee-os/out/arm-plat-k3/core/tee-pager_v2.bin O=build-a53 BINMAN_INDIRS=`pwd`/../ti-linux-firmware -j `nproc`
 ```
 
 **NOTE:** Clean command: `make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- O=build-a53 distclean`
