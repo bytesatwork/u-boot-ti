@@ -124,7 +124,11 @@
 };
 
 &usb0 {
-	dr_mode = "host";
+	dr_mode = "peripheral";
+	u-boot,dm-spl;
+};
+
+&main_usb0_pins_default {
 	u-boot,dm-spl;
 };
 
