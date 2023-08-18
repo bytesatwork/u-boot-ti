@@ -107,6 +107,9 @@
 	"\0" \
 	"enable_oldi=mw.l 0x00109008 0x68EF3490; mw.l 0x0010900C 0xD172BC5A; " \
 		"mw.l 0x00108700 0x00000000; " \
+	"\0" \
+	"dfu_alt_info_ram=tispl.bin ram 0x80080000 0x200000;" \
+		"u-boot.img ram 0x81000000 0x400000\0" \
 	"\0"
 
 /* The remaining common defines, source <configs/ti_armv7_common.h> */
