@@ -17,6 +17,7 @@ const struct baw_config_name_pair baw_config_pcb_name[] = {
 	{ M6_PCB_REV_1_1, "M6 Rev 1.1" },
 	{ M8_PCB_REV_0_1, "M8 Rev 0.1" },
 	{ M8_PCB_REV_1_0, "M8 Rev 1.0" },
+	{ M8_PCB_REV_1_1, "M8 Rev 1.1" },
 	{ -1, NULL },
 };
 

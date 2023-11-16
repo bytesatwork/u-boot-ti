@@ -21,6 +21,7 @@ enum baw_config_pcb {
 	M6_PCB_REV_1_1 = 8,
 	M8_PCB_REV_0_1 = 9,
 	M8_PCB_REV_1_0 = 10,
+	M8_PCB_REV_1_1 = 11,
 };
 
 enum baw_config_ram {
