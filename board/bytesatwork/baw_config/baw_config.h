@@ -23,6 +23,7 @@ enum baw_config_pcb {
 	M8_PCB_REV_1_0 = 10,
 	M8_PCB_REV_1_1 = 11,
 	M7_PCB_REV_1_0 = 12,
+	M8P_PCB_REV_1_0 = 13,
 };
 
 enum baw_config_ram {
@@ -53,6 +54,7 @@ enum baw_config_ram {
 	M7_RAM_MT53D512M32D2DS_053 = 22,
 	M7_RAM_MT53E768M32D4DT_053 = 23,
 	M7_RAM_MT53E1G32D2FW_046 = 24,
+	M8P_RAM_MT53E2G32D4DE_046 = 25,
 };
 
 enum baw_config_flash {
