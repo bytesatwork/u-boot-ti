@@ -276,6 +276,7 @@ F:	arch/arm/dts/k3-am62*bytedevkit*
 F:	arch/arm/dts/k3-am62*byteengine*
 F:	arch/arm/dts/k3-am625-bytedevkit-binman.dtsi
 F:	board/bytesatwork/
+F:	board/bytesatwork/bytedevkit_am62lx/
 F:	board/bytesatwork/bytedevkit_am62x/
 F:	cmd/cpuinfo.c
 F:	configs/*bytedevkit*_defconfig

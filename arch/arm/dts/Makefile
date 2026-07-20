@@ -1109,6 +1109,8 @@ dtb-$(CONFIG_SOC_K3_AM625) += k3-am625-r5-sk.dtb \
 			      k3-am625-bytedevkit.dtb \
 			      k3-am625-r5-bytedevkit.dtb
 
+dtb-$(CONFIG_SOC_K3_AM62L3) += k3-am62l3-bytedevkit.dtb
+
 dtb-$(CONFIG_SOC_K3_AM62A7) += \
 	k3-am62a7-r5-sk.dtb \
 	k3-am62a7-r5-phycore-som-2gb.dtb

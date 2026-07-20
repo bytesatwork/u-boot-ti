@@ -19,5 +19,6 @@ config TARGET_AM62L3_EVM
 endchoice
 
 source "board/ti/am62lx/Kconfig"
+source "board/bytesatwork/bytedevkit_am62lx/Kconfig"
 
 endif
