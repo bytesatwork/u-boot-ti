@@ -30,6 +30,11 @@
 #define CFG_SYS_NAND_ECCBYTES        14
 /*-- end NAND config --*/
 
+/* baw config built in defaults */
+#define BAW_CONFIG_BUILTIN_PCB 10
+#define BAW_CONFIG_BUILTIN_RAM 14
+#define BAW_CONFIG_BUILTIN_FLASH 3
+
 #define CFG_EXTRA_ENV_SETTINGS \
 	"console=ttyS0,115200n8\0" \
 	"dtbfile=k3-am62lx-bytedevkit.dtb\0" \

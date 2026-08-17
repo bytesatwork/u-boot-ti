@@ -56,6 +56,8 @@ config BAW_COMMON_CMD_OPTIONS
 	imply CMD_TIME
 	imply CMD_USB if USB
 
+source "board/bytesatwork/baw_config/Kconfig"
+
 endif
 
 

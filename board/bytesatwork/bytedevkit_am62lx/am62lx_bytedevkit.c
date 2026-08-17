@@ -15,6 +15,7 @@
 #include <spl.h>
 
 #include "../../ti/common/fdt_ops.h"
+#include "../baw_config/baw_config_eeprom.h"
 
 int board_init(void)
 {
@@ -24,6 +25,12 @@ int board_init(void)
 #if IS_ENABLED(CONFIG_BOARD_LATE_INIT)
 int board_late_init(void)
 {
+	int ret;
+
+	ret = baw_config_eeprom_init();
+	if (ret)
+		printf("Initialize byteENGINE EEPROM failed! (%d)\n", ret);
+
 	ti_set_fdt_env(NULL, NULL);
 	return 0;
 }

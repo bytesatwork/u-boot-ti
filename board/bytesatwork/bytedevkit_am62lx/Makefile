@@ -5,3 +5,4 @@
 
 obj-y	+= am62lx_bytedevkit.o
 obj-y	+= ../../ti/common/
+obj-y	+= ../baw_config/
