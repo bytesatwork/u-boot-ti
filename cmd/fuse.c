@@ -44,6 +44,9 @@ static int do_fuse(struct cmd_tbl *cmdtp, int flag, int argc,
 	argc -= 2 + confirmed;
 	argv += 2 + confirmed;
 
+	if (!op)
+		return CMD_RET_USAGE;
+
 	if (IS_ENABLED(CONFIG_CMD_FUSE_WRITEBUFF) && !strcmp(op, "writebuff")) {
 		if (argc == 1)
 			addr = simple_strtoul(argv[0], NULL, 16);
